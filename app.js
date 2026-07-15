@@ -7,15 +7,15 @@ const normalizedEl = document.getElementById("normalized");
 
 // Known Nigerian mobile prefixes (the 3 digits after the leading 0).
 // Not exhaustive forever — NCC allocates new ranges — but covers the majors.
-const PREFIXES = new Set([
+const PREFIXES = new Map([
   // MTN
-  "803", "806", "703", "706", "813", "816", "810", "814", "903", "906", "913", "916",
+  ...["803", "806", "703", "706", "813", "816", "810", "814", "903", "906", "913", "916"].map((prefix) => [prefix, "MTN"]),
   // Glo
-  "805", "807", "705", "815", "811", "905", "915",
+  ...["805", "807", "705", "815", "811", "905", "915"].map((prefix) => [prefix, "Glo"]),
   // Airtel
-  "802", "808", "708", "812", "701", "902", "901", "904", "907", "912",
+  ...["802", "808", "708", "812", "701", "902", "901", "904", "907", "912"].map((prefix) => [prefix, "Airtel"]),
   // 9mobile
-  "809", "817", "818", "908", "909",
+  ...["809", "817", "818", "908", "909"].map((prefix) => [prefix, "9mobile"]),
 ]);
 
 function normalize(raw) {
@@ -49,17 +49,18 @@ function validate(raw) {
     };
   }
   const prefix = s.slice(1, 4);
-  if (!PREFIXES.has(prefix)) {
+  const network = PREFIXES.get(prefix);
+  if (!network) {
     return { ok: false, reason: `0${prefix} isn't a recognized Nigerian mobile prefix.` };
   }
-  return { ok: true, e164: "+234" + s.slice(1) };
+  return { ok: true, e164: "+234" + s.slice(1), network };
 }
 
 function render(result) {
   input.classList.toggle("ok", result.ok);
   input.classList.toggle("err", !result.ok && result.reason !== "");
   msg.className = result.ok ? "ok" : "err";
-  msg.textContent = result.ok ? "Looks good ✓" : result.reason;
+  msg.textContent = result.ok ? `Looks good ✓ · ${result.network}` : result.reason;
   normalizedEl.textContent = result.ok ? result.e164 : "—";
 }
 
