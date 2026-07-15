@@ -1,0 +1,50 @@
+:root {
+  --bg: #f7f6f3;
+  --card: #ffffff;
+  --text: #1f2933;
+  --muted: #6b7280;
+  --ok: #087f5b;
+  --err: #c92a2a;
+  --focus: #1c7ed6;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, sans-serif;
+}
+main {
+  background: var(--card);
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.06);
+  width: min(420px, 92vw);
+}
+h1 { margin: 0 0 4px; font-size: 1.4rem; }
+.tagline { color: var(--muted); margin: 0 0 24px; font-size: 0.95rem; }
+.field { margin-bottom: 20px; }
+label, .label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+input {
+  font: inherit;
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+}
+input:focus-visible { outline: none; border-color: var(--focus); }
+input.ok { border-color: var(--ok); }
+input.err { border-color: var(--err); }
+#phone-msg { min-height: 1.2em; font-size: 0.85rem; margin: 6px 0 0; }
+#phone-msg.ok { color: var(--ok); }
+#phone-msg.err { color: var(--err); }
+code {
+  display: block;
+  background: #f1f3f5;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
