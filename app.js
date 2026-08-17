@@ -58,7 +58,14 @@ function validate(raw) {
 function render(result) {
   input.classList.toggle("ok", result.ok);
   input.classList.toggle("err", !result.ok && result.reason !== "");
+  // Screen readers: mark validity; avoid scolding empty field
+  if (!input.value.trim()) {
+    input.removeAttribute("aria-invalid");
+  } else {
+    input.setAttribute("aria-invalid", result.ok ? "false" : "true");
+  }
   msg.className = result.ok ? "ok" : "err";
+  msg.setAttribute("role", result.reason || result.ok ? "status" : "status");
   msg.textContent = result.ok ? "Looks good ✓" : result.reason;
   normalizedEl.textContent = result.ok ? result.e164 : "—";
 }
